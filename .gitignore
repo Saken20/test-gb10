@@ -1,0 +1,24 @@
+# Run outputs and local settings
+results/
+/config.yaml
+.env
+*.local.*
+
+# Own test data and audio; only the examples are tracked
+data/*
+!data/*.example.*
+*.wav
+*.mp3
+!*.example.wav
+!*.example.mp3
+
+# Private plugins
+plugins_private/
+
+# Environments and caches
+.venv/
+venv/
+.conda/
+__pycache__/
+*.pyc
+.pytest_cache/
