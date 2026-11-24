@@ -1,0 +1,75 @@
+# Copy to config.yaml. Every stage (llm, asr, nlu, tts) is optional: delete a section to skip it and its tests.
+# `type:` picks the adapter (adapters.py). Keys, tokens and URL credentials are masked in all outputs.
+
+llm:
+  type: openai             # streaming /v1/chat/completions (vLLM, SGLang, llama.cpp, ...)
+  url: http://localhost:8000/v1/chat/completions
+  model: Qwen/Qwen3-8B
+  max_tokens: 200
+  temperature: 0.7
+  system_prompt: "You are a helpful voice assistant. Answer in 1-3 sentences."
+  extra_body:                                        # merged into the request body
+    chat_template_kwargs: {enable_thinking: false}   # Qwen3: no "thinking" tokens
+  # api_key: ""            # sent as "Authorization: Bearer ..."
+  # default_prompt: "..."  # when there is no data.llm_prompts or ASR returned nothing
+  # history_filler_user: "..."       # filler dialog that pads the history to run.history_tokens
+  # history_filler_assistant: "..."
+
+asr:
+  type: openai             # multipart POST to /v1/audio/transcriptions -> {"text": ...}
+  url: http://localhost:8001/v1/audio/transcriptions
+  model: Qwen/Qwen3-ASR-1.7B
+  language: ""             # optional, e.g. en
+  # type: http             # your JSON API: POST {audio_field: base64 WAV, ...extra} -> response[text_field]
+  # audio_field: audio_base64
+  # text_field: text       # dotted path is fine: result.text
+
+nlu:                       # intent classifier; delete the section if you have none
+  type: http               # POST {text_field: text, ...extra} -> response[intent_field]
+  url: http://localhost:8003/predict
+  text_field: text
+  intent_field: intent     # dotted path is fine: result.intent
+  extra: {}
+
+tts:
+  type: http               # POST {text_field: text, ...extra}
+  url: http://localhost:8002/tts
+  text_field: text
+  response: wav            # wav (streamed) | json_base64 ({audio_field: base64 WAV}) | pcm16 (raw, streamed)
+  audio_field: audio
+  sample_rate: 24000       # pcm16 only
+  # channels: 1            # pcm16 only
+  extra: {}                # e.g. {voice: default, speed: 1.0}
+
+# Any stage can be a plugin (section passed as stage_cfg; path relative to this config or module:Class):
+#   llm: {type: plugin, plugin: examples/plugin_echo.py:EchoLLM}
+
+data:
+  asr_manifest: data/asr_manifest.csv  # audio,text — 16 kHz mono WAV recordings and their transcripts
+  llm_prompts: data/llm_prompts.jsonl  # {"prompt": ..., "must_contain": [...]}
+  nlu_set: data/nlu.csv                # text,intent
+  tts_texts: data/tts_texts.txt        # one sentence per line
+
+run:
+  warmup: 3
+  repeats: 20                          # repeats in the single-user test
+  concurrency_levels: [1, 2, 5, 10]    # concurrent dialogs per load level
+  concurrency_duration_s: 60           # duration of each load level
+  history_tokens: 4000                 # dialog history sent with every request (0 = none)
+  chars_per_token: 4                   # to size the filler history: ~4 for English, ~3 for Russian
+  stop_below_tps: 1                    # stop the load test when per-user speed drops below this
+  request_timeout_s: 300
+  idle_s: 5                            # idle memory baseline before the tests (with the monitor on)
+
+thresholds:
+  comfortable_tps: 20                  # comfortable speed per user, tok/s
+  limit_tps: 10                        # minimum acceptable speed per user, tok/s
+  pause_max_s: 2.0                     # acceptable pause before the answer (p95), s
+
+# expect:                              # optional: your own expectations, shown next to the measurements
+#   single_tps: 25
+#   pause_s: "1-2"
+#   comfortable_n: 2
+#   limit_n: 10
+#   pipeline_drop_pct: 20
+#   memory_gb: 30
