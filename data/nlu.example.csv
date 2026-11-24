@@ -1,0 +1,49 @@
+text,intent
+What's the weather like in London tomorrow,weather
+"Will it rain this afternoon?",weather
+How cold is it outside,weather
+"Do I need an umbrella today?",weather
+Set a timer for ten minutes,timer
+"Start a five minute timer, please",timer
+How much time is left on my timer,timer
+Cancel the timer,timer
+Remind me to call my sister at six,reminder
+"Add a reminder to buy milk tomorrow",reminder
+What reminders do I have today,reminder
+Delete my reminder about the dentist,reminder
+Play some relaxing music,music
+"Skip this song",music
+Turn the volume up,music
+Play my workout playlist,music
+Turn off the lights in the kitchen,smart_home
+Set the thermostat to twenty one degrees,smart_home
+"Is the front door locked?",smart_home
+Switch on the bedroom lamp,smart_home
+What's on my calendar tomorrow,calendar
+Schedule a meeting with Alex on Friday at ten,calendar
+"Move my three o'clock call to four",calendar
+Am I free on Monday afternoon,calendar
+How long does it take to drive to the airport,navigation
+Find the nearest pharmacy,navigation
+"Is there traffic on the way to work?",navigation
+Give me directions to the train station,navigation
+What is fifteen percent of two hundred,math
+How many centimetres are in a foot,math
+"What's twelve times eight?",math
+Convert fifty dollars to euros,math
+How do you say thank you in Japanese,translate
+Translate good night into French,translate
+"What does 'gracias' mean?",translate
+Say hello in German,translate
+Hello!,greeting
+"Good evening",greeting
+"Thanks, that was helpful",greeting
+"Hi there",greeting
+"What can you help me with?",help
+"I don't know what to say",help
+"How do I use this?",help
+"What can you do?",help
+Tell me a joke about programmers,unknown
+Who won the game last night,unknown
+Sing me a song,unknown
+What is the meaning of life,unknown

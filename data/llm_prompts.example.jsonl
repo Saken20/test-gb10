@@ -1,0 +1,10 @@
+{"prompt": "What should I pack for a three-day hiking trip?", "must_contain": ["water"]}
+{"prompt": "Explain in two sentences what a black hole is.", "must_contain": ["gravity"]}
+{"prompt": "Convert 5 kilometres to miles.", "must_contain": ["3.1"]}
+{"prompt": "Give me three ideas for a quick vegetarian dinner.", "must_contain": []}
+{"prompt": "How do I reset a forgotten Wi-Fi password on a home router?", "must_contain": ["router"]}
+{"prompt": "Translate 'good morning' into Spanish.", "must_contain": ["buenos"]}
+{"prompt": "Remind me why the sky is blue.", "must_contain": ["light"]}
+{"prompt": "Suggest a name for a small black cat.", "must_contain": []}
+{"prompt": "What is the capital of Canada?", "must_contain": ["Ottawa"]}
+{"prompt": "What's the weather like today?", "must_contain": []}
